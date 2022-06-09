@@ -1,0 +1,72 @@
+{
+  "data": [
+    {
+      "_id": "628cd66a986ab0e2bc87f9f5",
+      "author": "Крис Минник, Ева Холланд",
+      "title": "JS для чайников",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/16533973694262513816_detail.jpeg",
+      "userId": "g-anka"
+    },
+    {
+      "_id": "6280ffb06936fcbedc7ef0a7",
+      "author": "Ozzy",
+      "title": "биография",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652621232126ozzi-osbourn.jpg",
+      "userId": "Stas"
+    },
+    {
+      "_id": "6280ff976936fcbedc7ef0a6",
+      "author": "Vance",
+      "title": "Elon Musk",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652621207661kisspng-elon-musk-tesla-spacex.jpg",
+      "userId": "Stas"
+    },
+    {
+      "_id": "627d5761fd534af9efef37d6",
+      "author": "Татьяна Ильина",
+      "title": "Грибы. Иллюстрированная энциклопедия",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652381536802cover%20%281%29.webp",
+      "userId": "David"
+    },
+    {
+      "_id": "627aa9a782381e23581f27f7",
+      "author": "",
+      "title": "",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652205991495glue-1.jpeg"
+    },
+    {
+      "_id": "627aa86c8fa17c03bc6b424d",
+      "author": "D.London",
+      "title": "M.Iden",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652205676648%D0%BC%D0%B0%D1%80%D1%82%D0%B8%D0%BD%20%D0%B8%D0%B4%D0%B5%D0%BD.jpeg"
+    },
+    {
+      "_id": "627a9dab3510d3ac40ed924d",
+      "author": "Эрих Мария Ремарк",
+      "title": "Три товарища",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652202923021Erih_Mariya_Remark__Tri_tovarischa.jpeg",
+      "userId": "g-anka"
+    },
+    {
+      "_id": "627a9d4c3510d3ac40ed924a",
+      "author": "Артур Хейли",
+      "title": "Аэропорт",
+      "userId": "nordic",
+      "imageUrl": "https://nordic-messenger.s3.eu-central-1.amazonaws.com/1652379546744book.jpeg"
+    },
+    {
+      "_id": "627a90b5ec4d8187a94be17d",
+      "author": "Акунин",
+      "title": "Нефритовые четки"
+    },
+    {
+      "_id": "627a90b4ec4d8187a94be17b",
+      "author": "Акунин",
+      "title": "Нефритовые четки"
+    }
+  ],
+  "page": 0,
+  "pageSize": 10,
+  "totalPages": 3,
+  "total": 23
+}
