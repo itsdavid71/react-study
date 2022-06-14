@@ -52,7 +52,7 @@ class BookForm extends React.Component {
     const { title, author } = this.state;
     return (
       <div>
-        <Form className="mb-5 mt-5" onSubmit={this.handleSubmit}>
+        <Form className="mb-5 mt-2" onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
