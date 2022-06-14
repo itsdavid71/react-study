@@ -2,14 +2,16 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
+import book from "../types/book";
 
-class AddBookForm extends React.Component {
-  constructor() {
+class BookForm extends React.Component {
+  constructor(props) {
     super();
     this.state = {
-      title: "",
-      author: "",
+      title: props.book ? props.book.title : "",
+      author: props.book ? props.book.author : "",
     };
+    this.fileInputRef = React.createRef();
   }
 
   handleTitleChange = (event) => {
@@ -34,9 +36,10 @@ class AddBookForm extends React.Component {
   };
 
   handleSubmit = (event) => {
+    console.log(this.fileInputRef);
     event.preventDefault();
     const { title, author } = this.state;
-    const data = { title, author };
+    const data = { title, author, file: this.fileInputRef.current.files[0] };
     this.props.onSubmit(data);
     this.setState({
       title: "",
@@ -45,10 +48,10 @@ class AddBookForm extends React.Component {
   };
 
   render() {
+    const { book, submitButtonText } = this.props;
     const { title, author } = this.state;
     return (
       <div>
-        <h2>Добавление книги</h2>
         <Form className="mb-5 mt-5" onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Control
@@ -56,6 +59,7 @@ class AddBookForm extends React.Component {
               onChange={this.handleTitleChange}
               placeholder="Название книги"
               name="title"
+              value={title}
             />
             {!title && (
               <Form.Text className="text-danger">Введи название.</Form.Text>
@@ -69,13 +73,24 @@ class AddBookForm extends React.Component {
               name="author"
               onChange={this.handleAuthorChange}
               placeholder="Автор книги"
+              value={author}
             />
+
             {!author && (
               <Form.Text className="text-danger">Введи автора.</Form.Text>
             )}
           </Form.Group>
+          <Form.Group className="mb-3" controlId="formImage">
+            <Form.Label>Обложка</Form.Label>
+            <Form.Control type="file" name="image" ref={this.fileInputRef} />
+            {book && (
+              <div>
+                <img src={book.imageUrl} style={{ maxWidth: 200 }} alt="" />
+              </div>
+            )}
+          </Form.Group>
           <Button variant="primary" type="submit">
-            Добавить
+            {submitButtonText}
           </Button>
         </Form>
       </div>
@@ -83,7 +98,13 @@ class AddBookForm extends React.Component {
   }
 }
 
-AddBookForm.propTypes = {
+BookForm.propTypes = {
+  submitButtonText: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
 };
-export default AddBookForm;
+
+BookForm.defaultProps = {
+  submitButtonText: "Сохранить",
+};
+
+export default BookForm;

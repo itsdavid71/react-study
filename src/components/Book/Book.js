@@ -34,6 +34,8 @@ function Book({ author, title, imageUrl, onDelete, onEdit }) {
 
 Book.propTypes = {
   book: bookType.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default Book;

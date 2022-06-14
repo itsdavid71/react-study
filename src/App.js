@@ -2,12 +2,11 @@ import React from "react";
 import Axios from "axios";
 import logo from "./logo.svg";
 import "./App.css";
-import { Modal } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { Button } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import Book from "./components/Book/Book";
-import AddBookForm from "./components/Book/AddBookForm";
+import BookForm from "./components/Book/BookForm";
+import EditBookModal from "./components/Book/EditBookModal";
+import DeleteBookModal from "./components/Book/DeleteBookModal";
 // import Loader from "./components/Loader";
 import axios from "axios";
 
@@ -22,6 +21,7 @@ class App extends React.Component {
       isDeleteModalShown: false,
       isEditModalShown: false,
       bookId: "",
+      editBook: null,
     };
   }
 
@@ -49,13 +49,11 @@ class App extends React.Component {
   };
 
   handleBookDelete = (bookId) => {
-    console.log(bookId);
     this.setState({ isDeleteModalShown: true, bookId });
   };
 
-  handleBookEdit = (bookId) => {
-    console.log("edit");
-    this.setState({ isEditModalShown: true, bookId });
+  handleBookEdit = (book) => {
+    this.setState({ isEditModalShown: true, editBook: book });
   };
 
   handleDeleteModalHide = () => {
@@ -82,10 +80,12 @@ class App extends React.Component {
   };
 
   handleBookSubmit = (data) => {
-    const { title, author } = data;
+    const { title, author, file } = data;
+    console.log(file);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("author", author);
+    formData.append("cover", file);
 
     fetch(apiUrl, {
       method: "POST",
@@ -101,8 +101,34 @@ class App extends React.Component {
         this.getBooks();
       });
   };
+
+  handleEditBookSubmit = (data) => {
+    const { title, author, file } = data;
+    const { editBook } = this.state;
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("author", author);
+    formData.append("cover", file);
+
+    fetch(`${apiUrl}/${editBook._id}`, {
+      method: "PUT",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("eshkereeee");
+        this.setState({
+          title: "",
+          author: "",
+        });
+        this.getBooks();
+        this.handleEditModalHide();
+      });
+  };
+
   render() {
-    const { isLoading, isDeleteModalShown, isEditModalShown } = this.state;
+    const { editBook, isLoading, isDeleteModalShown, isEditModalShown } =
+      this.state;
     const booksList = this.state.books.map((book) => (
       <Book
         key={book._id}
@@ -113,7 +139,7 @@ class App extends React.Component {
         imageUrl={book.imageUrl}
         books={this.state.books}
         onDelete={() => this.handleBookDelete(book._id)}
-        onEdit={() => this.handleBookEdit(book._id)}
+        onEdit={() => this.handleBookEdit(book)}
       />
     ));
 
@@ -124,7 +150,11 @@ class App extends React.Component {
         </div>
 
         {/* <Pagination pages={this.state.pages} /> */}
-        <AddBookForm onSubmit={this.handleBookSubmit} />
+        <h2>Добавление книги</h2>
+        <BookForm
+          onSubmit={this.handleBookSubmit}
+          submitButtonText={"Добавить"}
+        />
         <div className="books-list">
           {isLoading && (
             <Spinner animation="border" role="status">
@@ -134,57 +164,21 @@ class App extends React.Component {
 
           {!isLoading && booksList}
         </div>
-        <Modal show={isDeleteModalShown}>
-          <Modal.Header closeButton onHide={this.handleDeleteModalHide}>
-            <Modal.Title>Вы уверены?</Modal.Title>
-          </Modal.Header>
 
-          <Modal.Body>
-            <p>Подумайте семь раз.</p>
-          </Modal.Body>
+        <DeleteBookModal
+          show={isDeleteModalShown}
+          onHide={this.handleDeleteModalHide}
+          onConfirm={this.handleDeteleConfirm}
+        />
 
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleDeleteModalHide}>
-              Отмена
-            </Button>
-            <Button variant="danger" onClick={this.handleDeteleConfirm}>
-              Удалить
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        {/* Edit */}
-        <Modal show={isEditModalShown}>
-          <Modal.Header closeButton onHide={this.handleEditModalHide}>
-            <Modal.Title>Редактирование</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Form>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Название книги</Form.Label>
-                <Form.Control type="text" placeholder="Введите название" />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Автор книги</Form.Label>
-                <Form.Control type="text" placeholder="Введите автора" />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>ID пользователя</Form.Label>
-                <Form.Control type="text" placeholder="Введите ID" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" className="me-2">
-                Submit
-              </Button>
-              <Button variant="secondary" onClick={this.handleEditModalHide}>
-                Отмена
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        {editBook && (
+          <EditBookModal
+            book={editBook}
+            show={isEditModalShown}
+            onHide={this.handleEditModalHide}
+            onSubmit={this.handleEditBookSubmit}
+          />
+        )}
       </div>
     );
   }
